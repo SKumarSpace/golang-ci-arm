@@ -44,3 +44,12 @@ jobs:
         with:
           name: rtcn-linux-arm
           path: rtcn-linux-arm
+
+      - name: "Compress Linux Artifacts"
+        run: tar -czvf rtcn-linux-arm.tar.gz rtcn-linux-arm
+
+      - name: "Publish Linux Artifacts"
+        uses: actions/upload-artifact@v4
+        with:
+          name: rtcn-linux-arm.tar.gz
+          path: rtcn-linux-arm.tar.gz
