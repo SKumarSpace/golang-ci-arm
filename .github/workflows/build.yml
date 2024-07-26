@@ -33,4 +33,10 @@ jobs:
           cargo build --target arm-unknown-linux-gnueabihf
 
       - name: Build for Linux ARM
-        run: cargo build --target arm-unknown-linux-gnueabihf
+        run: cargo build --release --target arm-unknown-linux-gnueabihf
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: rmt-turbo
+          path: target/arm-unknown-linux-gnueabihf/release/rmt-turbo
