@@ -16,5 +16,21 @@ jobs:
       - name: Install Rust Linux
         run: rustup target add arm-unknown-linux-gnueabihf
 
+      - name: Install ARM toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-arm-linux-gnueabihf
+
+      - name: Configure Cargo for ARM
+        run: |
+          mkdir -p .cargo
+          echo '[target.arm-unknown-linux-gnueabihf]' >> .cargo/config.toml
+          echo 'linker = "arm-linux-gnueabihf-gcc"' >> .cargo/config.toml
+
+      - name: Build for Linux ARM
+        run: |
+          export CARGO_TARGET_ARM_UNKNOWN_LINUX_GNUEABIHF_LINKER=arm-linux-gnueabihf-gcc
+          cargo build --target arm-unknown-linux-gnueabihf
+
       - name: Build for Linux ARM
         run: cargo build --target arm-unknown-linux-gnueabihf
