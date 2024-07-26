@@ -14,29 +14,26 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install Rust Linux
-        run: rustup target add arm-unknown-linux-gnueabihf
+        run: rustup target add aarch64-unknown-linux-gnu
 
-      - name: Install ARM toolchain
+      - name: Install ARM64 toolchain
         run: |
           sudo apt-get update
-          sudo apt-get install -y gcc-arm-linux-gnueabihf
+          sudo apt-get install -y gcc-aarch64-linux-gnu
 
-      - name: Configure Cargo for ARM
+      - name: Configure Cargo for ARM64
         run: |
           mkdir -p .cargo
-          echo '[target.arm-unknown-linux-gnueabihf]' >> .cargo/config.toml
-          echo 'linker = "arm-linux-gnueabihf-gcc"' >> .cargo/config.toml
+          echo '[target.aarch64-unknown-linux-gnu]' >> .cargo/config.toml
+          echo 'linker = "aarch64-linux-gnu-gcc"' >> .cargo/config.toml
 
-      - name: Build for Linux ARM
+      - name: Build for Linux ARM64
         run: |
-          export CARGO_TARGET_ARM_UNKNOWN_LINUX_GNUEABIHF_LINKER=arm-linux-gnueabihf-gcc
-          cargo build --target arm-unknown-linux-gnueabihf
-
-      - name: Build for Linux ARM
-        run: cargo build --release --target arm-unknown-linux-gnueabihf
+          export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc
+          cargo build --release --target aarch64-unknown-linux-gnu
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: rmt-turbo
-          path: target/arm-unknown-linux-gnueabihf/release/rmt-turbo
+          path: target/aarch64-unknown-linux-gnu/release/rmt-turbo
