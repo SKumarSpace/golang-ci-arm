@@ -53,3 +53,22 @@ jobs:
         with:
           name: rtcn-linux-arm.tar.gz
           path: rtcn-linux-arm.tar.gz
+
+      - name: "Create Release"
+        uses: actions/create-release@v1
+        id: create_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: "Release ${{ github.ref }}"
+      - name: "Upload Windows x64 Artifact"
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: rtcn-windows-x64.exe
+          asset_name: rtcn-windows-x64.exe
+          asset_content_type: application/vnd.microsoft.portable-executable
